@@ -1,0 +1,39 @@
+{
+    "name": "trilobit-gmbh/contao-aceid-bundle",
+    "description": "Contao 4 article contentelement id view bundle",
+    "type": "contao-bundle",
+    "license": "LGPL-3.0-or-later",
+    "version": "1.0.5",
+    "authors": [
+        {
+            "name": "trilobit GmbH",
+            "homepage": "https://github.com/trilobit-gmbh"
+        }
+    ],
+    "require": {
+        "contao/core-bundle": "~4.9",
+        "php": "^7.3"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.11",
+        "friendsofphp/php-cs-fixer": "^2.9.3"
+    },
+    "conflict": {
+        "contao-components/installer": "<1.3",
+        "contao/core-bundle": "<4.4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Trilobit\\AceidBundle\\": "src/"
+        },
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/",
+            "src/Resources/contao/templates/"
+        ]
+    },
+    "extra": {
+        "contao-manager-plugin": "Trilobit\\AceidBundle\\ContaoManager\\Plugin"
+    }
+}
