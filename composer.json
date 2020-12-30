@@ -3,7 +3,6 @@
     "description": "Contao 4 article contentelement id view bundle",
     "type": "contao-bundle",
     "license": "LGPL-3.0-or-later",
-    "version": "1.0.5",
     "authors": [
         {
             "name": "trilobit GmbH",
