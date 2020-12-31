@@ -92,12 +92,18 @@ class Article
 
         $childs = [];
         foreach (self::getChildRecords($row['id'], true) as $option) {
-            $childs[] = '&rarr; <a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf($GLOBALS['TL_LANG']['tl_content']['edit'], $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">'
-                .(!empty($filterId) && $filterId === $option['id'] ? '<span style="font-weight:bold">' : '')
-                .$option['type'].' <span style="color:#A3A3A3;padding:0 12px 0 3px">[ID: '.$option['id'].']</span>'
-                .(!empty($filterId) && $filterId === $option['id'] ? '</span>' : '')
+
+            $childs[] = '&rarr; '
+                .'<a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf($GLOBALS['TL_LANG']['tl_content']['edit'], $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">'
+                .'<span style="color:'.(false === strpos($option['id'], $filterId) ? '#A3A3A3':'#444').'">'
+                .(!empty($filterId) && $filterId === $option['id'] ? '<span style="font-weight:bold">':'')
+                .$option['type']
+                .' <span style="color:#A3A3A3;padding:0 12px 0 3px">[ID: '.str_replace($filterId, '<span style="font-weight:bold;color:#444">'.$filterId.'</span>', $option['id']).']</span>'
+                .(!empty($filterId) && $filterId === $option['id'] ? '</span>':'')
                 .Image::getHtml('edit.svg', sprintf($GLOBALS['TL_LANG']['tl_content']['edit'], $option['id']), 'style="margin-bottom:2px"')
-            .'</a>'
+                .'</span>'
+                #.(false === strpos($option['id'], $filterId) ? '</span>':'</mark>')
+                .'</a>'
             ;
         }
 
@@ -116,7 +122,7 @@ class Article
                     .'image.src=AjaxRequest.themePath+\'icons/folPlus.svg\''
                 .'}'
             .'">'
-            .Image::getHtml('folPlus.svg', '', 'data-icon="folMinus.svg" data-icon-disabled="folPlus.svg"').' '.$GLOBALS['TL_LANG']['tl_article']['contentElements'][0]
+            .Image::getHtml('fol'.(!empty($filterId) ? 'Minus' : 'Plus').'.svg', '', 'data-icon="folMinus.svg" data-icon-disabled="folPlus.svg"').' '.$GLOBALS['TL_LANG']['tl_article']['contentElements'][0]
             .'</div>'
             .'<div id="ace_'.$row['id'].'" style="display:'.(!empty($filterId) ? 'block' : 'none').';width:100%;text-indent:0;margin:2px 0 0 2px">'
             .implode('<br>', $childs)
