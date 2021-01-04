@@ -10,7 +10,7 @@ declare(strict_types=1);
  */
 
 $GLOBALS['TL_LANG']['tl_maintenance']['aceid']['headline'] = 'Artikel Inhaltselemente zuordnen';
-$GLOBALS['TL_LANG']['tl_maintenance']['aceid']['description'] = 'Bitte eine gute Beschreibung hinzufügen ;-)';
-$GLOBALS['TL_LANG']['tl_maintenance']['aceid']['submit'] = 'Zuordnen';
+$GLOBALS['TL_LANG']['tl_maintenance']['aceid']['description'] = 'Aceid, die Erweiterung die Inhaltselements-ID in Artikeln sichtbar und durchsuchbar macht, muss initailisiert werden, damit alle Inhaltselemente gefunden werden.';
+$GLOBALS['TL_LANG']['tl_maintenance']['aceid']['submit'] = 'Jetzt initialisieren!';
 $GLOBALS['TL_LANG']['tl_maintenance']['aceid']['success'] = 'Die Inhaltselemente von %s Artikeln wurden erfolgreich für die Suche zugeordnet.';
 $GLOBALS['TL_LANG']['tl_maintenance']['aceid']['error'] = 'Es konnten keine Artikel gefunden werden.';
