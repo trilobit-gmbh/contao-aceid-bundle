@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * @copyright  trilobit GmbH
  * @author     trilobit GmbH <https://github.com/trilobit-gmbh>
@@ -9,10 +11,12 @@
 
 namespace Trilobit\AceidBundle\ContaoManager;
 
+use Contao\CalendarBundle\ContaoCalendarBundle;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
+use Contao\NewsBundle\ContaoNewsBundle;
 use Trilobit\AceidBundle\TrilobitAceidBundle;
 
 /**
@@ -29,7 +33,11 @@ class Plugin implements BundlePluginInterface
     {
         return [
             BundleConfig::create(TrilobitAceidBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class]),
+                ->setLoadAfter([
+                    ContaoCoreBundle::class,
+                    ContaoNewsBundle::class,
+                    ContaoCalendarBundle::class,
+                ]),
         ];
     }
 }
