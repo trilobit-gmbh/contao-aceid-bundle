@@ -24,6 +24,5 @@ $GLOBALS['TL_DCA']['tl_article']['fields']['contentElements'] = [
     'sql' => 'blob NULL',
 ];
 
-$GLOBALS['TL_DCA']['tl_article']['list']['label']['fields'] = ['title', 'id', 'inColumn'];
-$GLOBALS['TL_DCA']['tl_article']['list']['label']['format'] = '%s <span style="color: #A3A3A3; padding-left: 3px;">[ID: %s / %s]';
-$GLOBALS['TL_DCA']['tl_article']['list']['label']['label_callback'] = [Article::class, 'getChildRecordsList'];
+$GLOBALS['TL_DCA']['tl_article']['list']['label']['fields'] = ['title'];
+$GLOBALS['TL_DCA']['tl_article']['list']['label']['format'] = '%s';
