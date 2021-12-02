@@ -1,0 +1,24 @@
+services:
+    trilobit.aceid.news.listener.list.label:
+        class: Trilobit\AceidBundle\EventListener\NewsLabelCallbackListener
+        public: true
+        arguments:
+            - '@?translator'
+
+    trilobit.aceid.events.listener.list.label:
+        class: Trilobit\AceidBundle\EventListener\CalendarLabelCallbackListener
+        public: true
+        arguments:
+            - '@?translator'
+
+    trilobit.aceid.article.listener.list.label:
+        class: Trilobit\AceidBundle\EventListener\ArticleLabelCallbackListener
+        public: true
+        arguments:
+            - '@?translator'
+
+    trilobit.aceid.page.listener.list.label:
+        class: Trilobit\AceidBundle\EventListener\PageLabelCallbackListener
+        public: true
+        arguments:
+            - '@?translator'
