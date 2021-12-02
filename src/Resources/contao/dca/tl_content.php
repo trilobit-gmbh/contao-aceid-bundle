@@ -13,6 +13,3 @@ use Trilobit\AceidBundle\DataContainer\Article;
 
 $GLOBALS['TL_DCA']['tl_content']['config']['onsubmit_callback'][] = [Article::class, 'onContentAction'];
 $GLOBALS['TL_DCA']['tl_content']['config']['ondelete_callback'][] = [Article::class, 'onContentAction'];
-
-$GLOBALS['TL_DCA']['tl_content']['list']['label']['fields'][] = 'id';
-$GLOBALS['TL_DCA']['tl_content']['list']['label']['format'] = '<span style="color: #A3A3A3; padding-left: 3px;">[ID: %s]';
