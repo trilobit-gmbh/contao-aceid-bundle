@@ -15,7 +15,7 @@
     },
     "require-dev": {
         "contao/manager-plugin": "^2.11",
-        "friendsofphp/php-cs-fixer": "^2.9.3"
+        "friendsofphp/php-cs-fixer": "^3.0"
     },
     "conflict": {
         "contao-components/installer": "<1.3",
