@@ -15,6 +15,7 @@ services:
         class: Trilobit\AceidBundle\EventListener\ArticleLabelCallbackListener
         public: true
         arguments:
+            - '@contao.framework'
             - '@?translator'
 
     trilobit.aceid.page.listener.list.label:
