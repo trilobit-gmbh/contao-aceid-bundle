@@ -11,12 +11,14 @@ declare(strict_types=1);
 
 namespace Trilobit\AceidBundle\EventListener;
 
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\StringUtil;
 use Contao\System;
+use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -26,10 +28,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ArticleLabelCallbackListener
 {
     private $translator;
+    private $framework;
 
-    public function __construct(?TranslatorInterface $translator)
+    public function __construct(ContaoFramework $framework, ?TranslatorInterface $translator)
     {
         $this->translator = $translator;
+        $this->framework = $framework;
+
+        /** @var System $system */
+        $system = $this->framework->getAdapter(System::class);
+        $system->loadLanguageFile('tl_content');
     }
 
     public function __invoke(array $row, string $label, DataContainer $dc, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
