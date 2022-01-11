@@ -11,12 +11,14 @@ declare(strict_types=1);
 
 namespace Trilobit\AceidBundle\EventListener;
 
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\StringUtil;
 use Contao\System;
+use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -26,10 +28,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ArticleLabelCallbackListener
 {
     private $translator;
+    private $framework;
 
-    public function __construct(?TranslatorInterface $translator)
+    public function __construct(ContaoFramework $framework, ?TranslatorInterface $translator)
     {
         $this->translator = $translator;
+        $this->framework = $framework;
+
+        /** @var System $system */
+        $system = $this->framework->getAdapter(System::class);
+        $system->loadLanguageFile('tl_content');
     }
 
     public function __invoke(array $row, string $label, DataContainer $dc, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
@@ -57,7 +65,7 @@ class ArticleLabelCallbackListener
                 .'<a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">'
                 .'<span style="color:'.(false === strpos($option['id'], $filterId) ? '#A3A3A3' : '#444').'">'
                 .(!empty($filterId) && $filterId === $option['id'] ? '<span style="font-weight:bold">' : '')
-                .$this->translator->trans('tl_content.'.$option['type'].'.0', [], 'contao_default')
+                .$this->translator->trans('CTE.'.$option['type'].'.0', [], 'contao_default')
                 .' <span style="color:#A3A3A3;padding:0 12px 0 3px">[ID: '.str_replace($filterId, '<span style="font-weight:bold;color:#444">'.$filterId.'</span>', $option['id']).']</span>'
                 .(!empty($filterId) && $filterId === $option['id'] ? '</span>' : '')
                 .Image::getHtml('edit.svg', sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']), 'style="margin-bottom:2px"')
