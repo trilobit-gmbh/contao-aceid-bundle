@@ -47,6 +47,7 @@ class PageLabelCallbackListener
 
     public function __invoke(array $row, string $label, DataContainer $dc, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
     {
-        return Backend::addPageIcon($row, $label, $dc).' <span style="color: #A3A3A3; padding-left: 3px;">[ID: '.$row['id'].(!empty($row['layout']) && !empty($row['includeLayout']) ? ' / '.$this->translator->trans('MOD.design', [], 'contao_default').': '.$this->layouts[$row['layout']]['output'] : '').']';
+        return Backend::addPageIcon($row, $label, $dc)
+            .'&nbsp;<span style="color:#A3A3A3;margin-left:3px;padding-left:3px">[ID: '.$row['id'].(!empty($row['layout']) && !empty($row['includeLayout']) ? ' / '.$this->translator->trans('MOD.design', [], 'contao_default').': '.$this->layouts[$row['layout']]['output'] : '').']';
     }
 }
