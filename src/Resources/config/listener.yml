@@ -1,14 +1,30 @@
 services:
-    trilobit.aceid.news.listener.list.label:
-        class: Trilobit\AceidBundle\EventListener\NewsLabelCallbackListener
+    trilobit.aceid.newsarchive.listener.list.label.label:
+        class: Trilobit\AceidBundle\EventListener\NewsarchiveLabelCallbackListener
         public: true
         arguments:
+            - '@contao.framework'
             - '@?translator'
 
-    trilobit.aceid.events.listener.list.label:
-        class: Trilobit\AceidBundle\EventListener\CalendarLabelCallbackListener
+    trilobit.aceid.newsitems.listener.list.sorting.child_record:
+        class: Trilobit\AceidBundle\EventListener\NewsitemsLabelCallbackListener
         public: true
         arguments:
+            - '@contao.framework'
+            - '@?translator'
+
+    trilobit.aceid.calendararchive.listener.list.label.label:
+        class: Trilobit\AceidBundle\EventListener\CalendararchiveLabelCallbackListener
+        public: true
+        arguments:
+            - '@contao.framework'
+            - '@?translator'
+
+    trilobit.aceid.calendaritems.listener.list.sorting.child_record:
+        class: Trilobit\AceidBundle\EventListener\CalendaritemsLabelCallbackListener
+        public: true
+        arguments:
+            - '@contao.framework'
             - '@?translator'
 
     trilobit.aceid.article.listener.list.label:
