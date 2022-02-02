@@ -25,7 +25,7 @@ class NewsarchiveLabelCallbackListener
     private $translator;
     private $framework;
 
-    public function __construct(ContaoFramework $framework, ?TranslatorInterface $translator)
+    public function __construct(ContaoFramework $framework, TranslatorInterface $translator)
     {
         $this->framework = $framework;
         $this->translator = $translator;
