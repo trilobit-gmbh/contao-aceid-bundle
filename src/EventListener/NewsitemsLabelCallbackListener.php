@@ -25,7 +25,7 @@ class NewsitemsLabelCallbackListener
     private $translator;
     private $framework;
 
-    public function __construct(ContaoFramework $framework, ?TranslatorInterface $translator)
+    public function __construct(ContaoFramework $framework, TranslatorInterface $translator)
     {
         $this->framework = $framework;
         $this->translator = $translator;
@@ -33,7 +33,7 @@ class NewsitemsLabelCallbackListener
 
     public function __invoke(array $row): string
     {
-        $item = new ArticleLabelCallbackListener($this->framework, $this->translator);
+        $item = new ArticleLabelCallbackListener($this->framework, $this->translator, 'tl_news');
         $childs = $item->__invoke($row, '');
         $childs = preg_replace('/^.*?<a.*?data-previewlink>.*?<\/a>(.*)$/s', '$1', $childs);
         $childs = preg_replace('/^.*?<span.*?data-id>.*?<\/span>(.*)$/s', '$1', $childs);
