@@ -4,38 +4,38 @@ services:
         public: true
         arguments:
             - '@contao.framework'
-            - '@?translator'
+            - '@translator'
 
     trilobit.aceid.newsitems.listener.list.sorting.child_record:
         class: Trilobit\AceidBundle\EventListener\NewsitemsLabelCallbackListener
         public: true
         arguments:
             - '@contao.framework'
-            - '@?translator'
+            - '@translator'
 
     trilobit.aceid.calendararchive.listener.list.label.label:
         class: Trilobit\AceidBundle\EventListener\CalendararchiveLabelCallbackListener
         public: true
         arguments:
             - '@contao.framework'
-            - '@?translator'
+            - '@translator'
 
     trilobit.aceid.calendaritems.listener.list.sorting.child_record:
         class: Trilobit\AceidBundle\EventListener\CalendaritemsLabelCallbackListener
         public: true
         arguments:
             - '@contao.framework'
-            - '@?translator'
+            - '@translator'
 
     trilobit.aceid.article.listener.list.label:
         class: Trilobit\AceidBundle\EventListener\ArticleLabelCallbackListener
         public: true
         arguments:
             - '@contao.framework'
-            - '@?translator'
+            - '@translator'
 
     trilobit.aceid.page.listener.list.label:
         class: Trilobit\AceidBundle\EventListener\PageLabelCallbackListener
         public: true
         arguments:
-            - '@?translator'
+            - '@translator'

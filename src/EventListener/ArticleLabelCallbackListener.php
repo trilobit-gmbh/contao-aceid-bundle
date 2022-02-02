@@ -30,10 +30,11 @@ class ArticleLabelCallbackListener
     private $framework;
     private $search;
 
-    public function __construct(ContaoFramework $framework, ?TranslatorInterface $translator)
+    public function __construct(ContaoFramework $framework, TranslatorInterface $translator, $ptable = 'tl_article')
     {
         $this->framework = $framework;
         $this->translator = $translator;
+        $this->ptable = $ptable;
 
         /** @var AttributeBagInterface $objSessionBag */
         $objSessionBag = System::getContainer()->get('session')->getBag('contao_backend');
@@ -61,7 +62,7 @@ class ArticleLabelCallbackListener
         }
 
         $childs = [];
-        foreach (self::getChildRecords($row['id']) as $option) {
+        foreach (self::getChildRecords($row['id'], $this->ptable) as $option) {
             $childs[] = '&rarr; '
                 .'<a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">'
                 .'<span style="color:'.(false === strpos($option['id'], $filterId) ? '#A3A3A3' : '#444').'">'
@@ -120,11 +121,11 @@ class ArticleLabelCallbackListener
         return $data;
     }
 
-    protected static function getChildRecords($pid): array
+    protected static function getChildRecords($pid, $ptable): array
     {
         return Database::getInstance()
-            ->prepare('SELECT * FROM tl_content WHERE pid=?')
-            ->execute($pid)
+            ->prepare('SELECT * FROM tl_content WHERE pid=? AND ptable=?')
+            ->execute($pid, $ptable)
             ->fetchAllAssoc();
     }
 }
