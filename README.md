@@ -23,3 +23,16 @@ Screenshots
 
 ![](src/docs/images/contao-aceid-bundle.png)
 
+
+Installation
+------------
+
+
+Install the extension via composer: [trilobit-gmbh/contao-aceid-bundle](https://packagist.org/packages/trilobit-gmbh/contao-aceid-bundle).
+
+Kompatibilität / Getestet / Compatibility / Tested
+--------------------------------------------------
+
+- Contao version ~4.9
+- Contao version ~4.13
+
