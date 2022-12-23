@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @copyright  trilobit GmbH
  * @author     trilobit GmbH <https://github.com/trilobit-gmbh>
  * @license    LGPL-3.0-or-later
- * @link       http://github.com/trilobit-gmbh/contao-aceid-bundle
  */
 
 namespace Trilobit\AceidBundle\EventListener;
@@ -37,7 +36,8 @@ class PageLabelCallbackListener
 
         $result = Database::getInstance()
             ->execute('SELECT l.id, l.name, t.name AS theme FROM tl_layout l LEFT JOIN tl_theme t ON l.pid=t.id ORDER BY t.name, l.name')
-            ->fetchAllAssoc();
+            ->fetchAllAssoc()
+        ;
 
         foreach ($result as $value) {
             $this->layouts[$value['id']] = $value;

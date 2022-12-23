@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @copyright  trilobit GmbH
  * @author     trilobit GmbH <https://github.com/trilobit-gmbh>
  * @license    LGPL-3.0-or-later
- * @link       http://github.com/trilobit-gmbh/contao-aceid-bundle
  */
 
 namespace Trilobit\AceidBundle\EventListener;
@@ -46,7 +45,7 @@ class ArticleLabelCallbackListener
         $system->loadLanguageFile('tl_article');
     }
 
-    public function __invoke(array $row, string $label, DataContainer $dc = null, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
+    public function __invoke(array $row, string $label, ?DataContainer $dc = null, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
     {
         $image = 'articles';
 
@@ -126,6 +125,7 @@ class ArticleLabelCallbackListener
         return Database::getInstance()
             ->prepare('SELECT * FROM tl_content WHERE pid=? AND ptable=?')
             ->execute($pid, $ptable)
-            ->fetchAllAssoc();
+            ->fetchAllAssoc()
+        ;
     }
 }
