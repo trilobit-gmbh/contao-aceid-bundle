@@ -51,7 +51,7 @@ class PageLabelCallbackListener
             .'&nbsp;<span style="color:#A3A3A3;margin-left:3px;padding-left:3px">'
             .'['
             .'ID: '.$row['id']
-            .(0 === $row['pid'] && !empty($row['dns']) ? ' / DNS: <a href="http'.(!empty($row['useSSL']) ? 's':'').'://'.$row['dns'].'" target="_blank">'.$row['dns'].'</a>' : '')
+            .(0 === $row['pid'] && !empty($row['dns']) ? ' / DNS: <a href="http'.(!empty($row['useSSL']) ? 's' : '').'://'.$row['dns'].'" target="_blank">'.$row['dns'].'</a>' : '')
             .(0 === $row['pid'] && !empty($row['useSSL']) ? ' / SSL' : '')
             .(0 === $row['pid'] && !empty($row['language']) ? ' / '.$row['language'] : '')
             .(!empty($row['layout']) && !empty($row['includeLayout']) ? ' / '.$this->translator->trans('MOD.design', [], 'contao_default').': '.$this->layouts[$row['layout']]['output'] : '')
