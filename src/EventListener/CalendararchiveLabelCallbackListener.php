@@ -38,7 +38,7 @@ class CalendararchiveLabelCallbackListener
 
     protected static function getChildRecordsCount($pid): string
     {
-        return Database::getInstance()
+        return (string) Database::getInstance()
             ->prepare('SELECT count(id) AS count FROM tl_calendar_events WHERE pid=?')
             ->execute($pid)->count;
     }
