@@ -77,7 +77,7 @@ class ArticleLabelCallbackListener
         foreach (self::getChildRecords($row['id'], $this->ptable) as $option) {
             $childs[] = '&rarr; '
                 .'<a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.$requestToken.'" title="'.sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">'
-                .'<span style="color:'.(false === strpos((string) $option['id'], (string) $filterId) ? '#A3A3A3' : '#444').'">'
+                .'<span style="color:'.(!empty($filterId) && false === strpos((string) $option['id'], (string) $filterId) ? '#A3A3A3' : '#444').'">'
                 .(!empty($filterId) && $filterId === $option['id'] ? '<span style="font-weight:bold">' : '')
                 .$this->translator->trans('CTE.'.$option['type'].'.0', [], 'contao_default')
                 .' <span style="color:#A3A3A3;padding:0 12px 0 3px">[ID: '.str_replace((string) $filterId, '<span style="font-weight:bold;color:#444">'.$filterId.'</span>', (string) $option['id']).']</span>'
