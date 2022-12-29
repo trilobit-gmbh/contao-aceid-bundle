@@ -40,6 +40,7 @@ class NewsarchiveLabelCallbackListener
     {
         return (string) Database::getInstance()
             ->prepare('SELECT count(id) AS count FROM tl_news WHERE pid=?')
-            ->execute($pid)->count;
+            ->execute($pid)
+            ->count;
     }
 }

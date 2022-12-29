@@ -40,6 +40,7 @@ class CalendararchiveLabelCallbackListener
     {
         return (string) Database::getInstance()
             ->prepare('SELECT count(id) AS count FROM tl_calendar_events WHERE pid=?')
-            ->execute($pid)->count;
+            ->execute($pid)
+            ->count;
     }
 }
