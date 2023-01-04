@@ -54,7 +54,7 @@ class PageLabelCallbackListener
             .(0 === $row['pid'] && !empty($row['dns']) ? ' / DNS: <a href="http'.(1 === (int) $row['useSSL'] ? 's' : '').'://'.$row['dns'].'" target="_blank">'.$row['dns'].'</a>' : '')
             .(0 === $row['pid'] && 1 === (int) $row['useSSL'] ? ' / SSL' : '')
             .(0 === $row['pid'] && !empty($row['language']) ? ' / '.$row['language'] : '')
-            .(!empty($row['layout']) && !empty($row['includeLayout']) ? ' / '.$this->translator->trans('MOD.design', [], 'contao_default').': '.$this->layouts[$row['layout']]['output'] : '')
+            .(!empty($row['layout']) && !empty($row['includeLayout']) && !empty($this->layouts[$row['layout']]) ? ' / '.$this->translator->trans('MOD.design', [], 'contao_default').': '.$this->layouts[$row['layout']]['output'] : '')
             .']';
     }
 }
