@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @copyright  trilobit GmbH
  * @author     trilobit GmbH <https://github.com/trilobit-gmbh>
  * @license    LGPL-3.0-or-later
- * @link       http://github.com/trilobit-gmbh/contao-aceid-bundle
  */
 
 namespace Trilobit\AceidBundle\DataContainer;
@@ -22,13 +21,15 @@ class Article
             return Database::getInstance()
                 ->prepare('SELECT * FROM tl_content WHERE pid=?')
                 ->execute($pid)
-                ->fetchAllAssoc();
+                ->fetchAllAssoc()
+            ;
         }
 
         return Database::getInstance()
             ->prepare('SELECT id FROM tl_content WHERE pid=?')
             ->execute($pid)
-            ->fetchEach('id');
+            ->fetchEach('id')
+        ;
     }
 
     public static function setChildRecords($pid, array $childs = []): void
@@ -37,7 +38,8 @@ class Article
             ->prepare('UPDATE tl_article %s WHERE id=?')
             ->set(['contentElements' => serialize($childs)])
             ->limit(1)
-            ->execute($pid);
+            ->execute($pid)
+        ;
     }
 
     public static function getAndSetChildRecords($pid): array

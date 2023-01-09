@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @copyright  trilobit GmbH
  * @author     trilobit GmbH <https://github.com/trilobit-gmbh>
  * @license    LGPL-3.0-or-later
- * @link       http://github.com/trilobit-gmbh/contao-aceid-bundle
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
@@ -14,7 +13,8 @@ use Trilobit\AceidBundle\DataContainer\Article;
 
 PaletteManipulator::create()
     ->addField('contentElements', 'layout_legend', PaletteManipulator::POSITION_APPEND)
-    ->applyToPalette('default', 'tl_article');
+    ->applyToPalette('default', 'tl_article')
+;
 
 $GLOBALS['TL_DCA']['tl_article']['fields']['contentElements'] = [
     'search' => true,

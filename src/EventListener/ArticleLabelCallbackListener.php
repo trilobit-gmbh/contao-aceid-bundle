@@ -6,11 +6,11 @@ declare(strict_types=1);
  * @copyright  trilobit GmbH
  * @author     trilobit GmbH <https://github.com/trilobit-gmbh>
  * @license    LGPL-3.0-or-later
- * @link       http://github.com/trilobit-gmbh/contao-aceid-bundle
  */
 
 namespace Trilobit\AceidBundle\EventListener;
 
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Database;
@@ -36,8 +36,14 @@ class ArticleLabelCallbackListener
         $this->translator = $translator;
         $this->ptable = $ptable;
 
-        /** @var AttributeBagInterface $objSessionBag */
-        $objSessionBag = System::getContainer()->get('session')->getBag('contao_backend');
+        $this->contaoVersion = (method_exists(ContaoCoreBundle::class, 'getVersion') ? ContaoCoreBundle::getVersion() : VERSION);
+
+        /* @var AttributeBagInterface $objSessionBag */
+        if (version_compare($this->contaoVersion, '4.9', '>')) {
+            $objSessionBag = System::getContainer()->get('request_stack')->getSession()->getBag('contao_backend');
+        } else {
+            $objSessionBag = System::getContainer()->get('session')->getBag('contao_backend');
+        }
         $this->search = $objSessionBag->get('search');
 
         /** @var System $system */
@@ -46,7 +52,7 @@ class ArticleLabelCallbackListener
         $system->loadLanguageFile('tl_article');
     }
 
-    public function __invoke(array $row, string $label, DataContainer $dc = null, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
+    public function __invoke(array $row, string $label, ?DataContainer $dc = null, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
     {
         $image = 'articles';
 
@@ -61,23 +67,21 @@ class ArticleLabelCallbackListener
             $filterId = $this->search['tl_article']['value'];
         }
 
+        if (version_compare($this->contaoVersion, '4.9', '>')) {
+            $requestToken = System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue();
+        } else {
+            $requestToken = REQUEST_TOKEN;
+        }
+
         $childs = [];
         foreach (self::getChildRecords($row['id'], $this->ptable) as $option) {
             $childs[] = '&rarr; '
-                .'<a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">'
-                .'<span style="color:'
-                .(!empty($filterId) && false !== strpos((string) $option['id'], $filterId)
-                    ? '#444'
-                    : '#A3A3A3'
-                )
-                .'">'
+                .'<a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.$requestToken.'" title="'.sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">'
+                .'<span style="color:'.(!empty($filterId) && false === strpos((string) $option['id'], (string) $filterId) ? '#A3A3A3' : '#444').'">'
+                .(!empty($filterId) && $filterId === $option['id'] ? '<span style="font-weight:bold">' : '')
                 .$this->translator->trans('CTE.'.$option['type'].'.0', [], 'contao_default')
-                .' <span style="color:#A3A3A3;padding:0 12px 0 3px">[ID: '
-                .(!empty($filterId)
-                    ? str_replace($filterId, '<span style="color:#444;font-weight:bold">'.$filterId.'</span>', (string) $option['id'])
-                    : $option['id']
-                )
-                .']</span>'
+                .' <span style="color:#A3A3A3;padding:0 12px 0 3px">[ID: '.str_replace((string) $filterId, '<span style="font-weight:bold;color:#444">'.$filterId.'</span>', (string) $option['id']).']</span>'
+                .(!empty($filterId) && $filterId === $option['id'] ? '</span>' : '')
                 .Image::getHtml('edit.svg', sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']), 'style="margin-bottom:2px"')
                 .'</span>'
                 .'</a>'
@@ -134,6 +138,7 @@ class ArticleLabelCallbackListener
         return Database::getInstance()
             ->prepare('SELECT * FROM tl_content WHERE pid=? AND ptable=?')
             ->execute($pid, $ptable)
-            ->fetchAllAssoc();
+            ->fetchAllAssoc()
+        ;
     }
 }

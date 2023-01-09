@@ -1,6 +1,6 @@
 {
     "name": "trilobit-gmbh/contao-aceid-bundle",
-    "description": "Contao 4 article contentelement id view bundle",
+    "description": "Contao 4 / Contao 5 article contentelement id view bundle",
     "type": "contao-bundle",
     "license": "LGPL-3.0-or-later",
     "authors": [
@@ -10,16 +10,13 @@
         }
     ],
     "require": {
-        "contao/core-bundle": "~4.9",
-        "php": "^7.3 || ^8.0"
+        "php": "^7.3 || ^8.0",
+        "contao/core-bundle": "^4.9 || ^5.0"
     },
     "require-dev": {
-        "contao/manager-plugin": "^2.11",
-        "friendsofphp/php-cs-fixer": "^3.0"
-    },
-    "conflict": {
-        "contao-components/installer": "<1.3",
-        "contao/core-bundle": "<4.4.8"
+        "contao/easy-coding-standard": "^3.0",
+        "contao/manager-plugin": "^2.3",
+        "friendsofphp/php-cs-fixer": "^v3.1.0"
     },
     "autoload": {
         "psr-4": {
@@ -34,5 +31,12 @@
     },
     "extra": {
         "contao-manager-plugin": "Trilobit\\AceidBundle\\ContaoManager\\Plugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "contao/manager-plugin": true
+        }
     }
 }

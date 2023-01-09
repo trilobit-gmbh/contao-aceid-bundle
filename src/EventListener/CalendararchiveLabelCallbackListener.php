@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @copyright  trilobit GmbH
  * @author     trilobit GmbH <https://github.com/trilobit-gmbh>
  * @license    LGPL-3.0-or-later
- * @link       http://github.com/trilobit-gmbh/contao-aceid-bundle
  */
 
 namespace Trilobit\AceidBundle\EventListener;
@@ -39,8 +38,9 @@ class CalendararchiveLabelCallbackListener
 
     protected static function getChildRecordsCount($pid): string
     {
-        return Database::getInstance()
+        return (string) Database::getInstance()
             ->prepare('SELECT count(id) AS count FROM tl_calendar_events WHERE pid=?')
-            ->execute($pid)->count;
+            ->execute($pid)
+            ->count;
     }
 }
