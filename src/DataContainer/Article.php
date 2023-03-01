@@ -19,14 +19,14 @@ class Article
     {
         if ($getAllData) {
             return Database::getInstance()
-                ->prepare('SELECT * FROM tl_content WHERE pid=?')
+                ->prepare('SELECT * FROM tl_content WHERE pid=? ORDER BY sorting')
                 ->execute($pid)
                 ->fetchAllAssoc()
             ;
         }
 
         return Database::getInstance()
-            ->prepare('SELECT id FROM tl_content WHERE pid=?')
+            ->prepare('SELECT id FROM tl_content WHERE pid=? ORDER BY sorting')
             ->execute($pid)
             ->fetchEach('id')
         ;
