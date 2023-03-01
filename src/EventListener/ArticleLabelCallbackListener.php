@@ -136,7 +136,7 @@ class ArticleLabelCallbackListener
     protected static function getChildRecords($pid, $ptable): array
     {
         return Database::getInstance()
-            ->prepare('SELECT * FROM tl_content WHERE pid=? AND ptable=?')
+            ->prepare('SELECT * FROM tl_content WHERE pid=? AND ptable=? ORDER BY sorting')
             ->execute($pid, $ptable)
             ->fetchAllAssoc()
         ;
