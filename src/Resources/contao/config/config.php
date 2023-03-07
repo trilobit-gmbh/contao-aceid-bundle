@@ -8,6 +8,6 @@ declare(strict_types=1);
  * @license    LGPL-3.0-or-later
  */
 
-use Trilobit\AceidBundle\Maintenance\ArticleContentelementIdMaintenance;
+use Trilobit\AceidBundle\Maintenance\ArticleContentelementid;
 
-$GLOBALS['TL_MAINTENANCE'][] = ArticleContentelementIdMaintenance::class;
+$GLOBALS['TL_MAINTENANCE'][] = ArticleContentelementid::class;
