@@ -10,15 +10,15 @@ declare(strict_types=1);
 
 namespace Trilobit\AceidBundle\Maintenance;
 
-use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\Database;
 use Contao\Environment;
 use Contao\Input;
 use Contao\Message;
+use Contao\StringUtil;
 use Trilobit\AceidBundle\DataContainer\Article;
 
-class ArticleContentelementIdMaintenance extends Backend implements \executable
+class ArticleContentelementid extends Maintenance
 {
     public function isActive(): bool
     {
@@ -56,7 +56,7 @@ class ArticleContentelementIdMaintenance extends Backend implements \executable
             $this->reload();
         }
 
-        $objTemplate->action = ampersand(Environment::get('request'));
+        $objTemplate->action = StringUtil::ampersand(Environment::get('request'));
         $objTemplate->headline = $GLOBALS['TL_LANG']['tl_maintenance']['aceid']['headline'];
         $objTemplate->description = $GLOBALS['TL_LANG']['tl_maintenance']['aceid']['description'];
         $objTemplate->submit = $GLOBALS['TL_LANG']['tl_maintenance']['aceid']['submit'];
