@@ -17,9 +17,7 @@ use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Date;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Callback(table="tl_calendar_events", target="list.sorting.child_record")
- */
+#[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_calendar_events', target: 'list.sorting.child_record')]
 class CalendaritemsLabelCallbackListener
 {
     public function __construct(ContaoFramework $framework, TranslatorInterface $translator)

@@ -21,9 +21,7 @@ use Contao\System;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Callback(table="tl_article", target="list.label.label")
- */
+#[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_article', target: 'list.label.label')]
 class ArticleLabelCallbackListener
 {
     private $translator;

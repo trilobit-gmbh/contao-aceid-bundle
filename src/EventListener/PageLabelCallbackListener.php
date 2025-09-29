@@ -16,9 +16,7 @@ use Contao\Database;
 use Contao\DataContainer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Callback(table="tl_page", target="list.label.label")
- */
+#[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_page', target: 'list.label.label')]
 class PageLabelCallbackListener
 {
     private $translator;
