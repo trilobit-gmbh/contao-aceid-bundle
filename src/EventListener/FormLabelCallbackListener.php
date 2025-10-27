@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Trilobit\AceidBundle\EventListener;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Database;
 use Contao\DataContainer;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -39,6 +38,7 @@ class FormLabelCallbackListener
         return (string) Database::getInstance()
             ->prepare('SELECT count(id) AS count FROM tl_form_field WHERE pid=?')
             ->execute($pid)
-            ->count;
+            ->count
+        ;
     }
 }

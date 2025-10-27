@@ -13,7 +13,6 @@ namespace Trilobit\AceidBundle\EventListener;
 use Contao\Calendar;
 use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Date;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -31,7 +30,7 @@ class CalendaritemsLabelCallbackListener
         $span = Calendar::calculateSpan($row['startTime'], $row['endTime']);
 
         if ($span > 0) {
-            $date = Date::parse(Config::get(($row['addTime'] ? 'datimFormat' : 'dateFormat')), $row['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Date::parse(Config::get(($row['addTime'] ? 'datimFormat' : 'dateFormat')), $row['endTime']);
+            $date = Date::parse(Config::get($row['addTime'] ? 'datimFormat' : 'dateFormat'), $row['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Date::parse(Config::get($row['addTime'] ? 'datimFormat' : 'dateFormat'), $row['endTime']);
         } elseif ($row['startTime'] === $row['endTime']) {
             $date = Date::parse(Config::get('dateFormat'), $row['startTime']).($row['addTime'] ? ' '.Date::parse(Config::get('timeFormat'), $row['startTime']) : '');
         } else {

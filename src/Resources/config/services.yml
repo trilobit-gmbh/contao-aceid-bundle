@@ -1,4 +1,12 @@
 services:
+    _defaults:
+        autoconfigure: true
+
+    _instanceof:
+        Contao\CoreBundle\Framework\FrameworkAwareInterface:
+            calls:
+                - [setFramework, ['@contao.framework']]
+
     trilobit.aceid.newsarchive.listener.list.label.label:
         class: Trilobit\AceidBundle\EventListener\NewsarchiveLabelCallbackListener
         public: true

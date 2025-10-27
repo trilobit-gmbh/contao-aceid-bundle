@@ -12,7 +12,6 @@ namespace Trilobit\AceidBundle\EventListener;
 
 use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Date;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
