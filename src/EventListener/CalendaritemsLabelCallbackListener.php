@@ -42,10 +42,12 @@ class CalendaritemsLabelCallbackListener
         $childs = preg_replace('/^.*?<a.*?data-previewlink>.*?<\/a>(.*)$/s', '$1', $childs);
         $childs = preg_replace('/^.*?<span.*?data-id>.*?<\/span>(.*)$/s', '$1', $childs);
 
-        return '<div class="tl_content_left">'
+        return '' // '<div class="tl_content_left">'
             .$row['title']
-            .'<span style="color:#A3A3A3;margin-left:3px;padding-left:3px">[ID: '.$row['id'].' / '.$date.']</span>'
-            .$childs
-            .'</div>';
+            .'<span class="label-info">['
+            .'ID: '.$row['id'].' / '.$date
+            .']</span>';
+        // .$childs
+        // .'</div>'
     }
 }

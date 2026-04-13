@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": "^8.0",
-        "contao/core-bundle": "^4.13 || ^5.3"
+      "php": "^8.3",
+      "contao/core-bundle": "^5.7"
     },
     "require-dev": {
         "contao/easy-coding-standard": "^3.0",

@@ -30,7 +30,9 @@ class FormLabelCallbackListener
     public function __invoke(array $row, string $label, DataContainer $dc, array $labels): string
     {
         return $label
-            .'<span style="color:#A3A3A3;margin-left:3px;padding-left:3px">[ID: '.$row['id'].' / '.$this->translator->trans('MSC.filterRecords', [], 'contao_default').': '.self::getChildRecordsCount($row['id']).']</span>';
+            .'<span class="label-info">['
+            .'ID: '.$row['id'].' / '.$this->translator->trans('MSC.filterRecords', [], 'contao_default').': '.self::getChildRecordsCount($row['id'])
+            .']</span>';
     }
 
     protected static function getChildRecordsCount($pid): string

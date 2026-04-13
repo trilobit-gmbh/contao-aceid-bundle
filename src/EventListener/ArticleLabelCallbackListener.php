@@ -50,79 +50,99 @@ class ArticleLabelCallbackListener
 
     public function __invoke(array $row, string $label, ?DataContainer $dc = null, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
     {
-        $image = 'articles';
-
-        $unpublished = ($row['start'] && $row['start'] > time()) || ($row['stop'] && $row['stop'] <= time());
-
-        if ($unpublished || !$row['published']) {
-            $image .= '_';
-        }
-
-        $filterId = null;
-        if (\is_array($this->search) && !empty($this->search['tl_article']['value']) && 'contentElements' === $this->search['tl_article']['field']) {
-            $filterId = $this->search['tl_article']['value'];
-        }
-
         if (version_compare($this->contaoVersion, '4.9', '>')) {
             $requestToken = System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue();
         } else {
             $requestToken = REQUEST_TOKEN;
         }
 
-        $childs = [];
+        $unpublished = ($row['start'] && $row['start'] > time())
+            || ($row['stop'] && $row['stop'] <= time())
+            || !$row['published'];
+
+        $filterId = null;
+        $filterFound = false;
+        if (\is_array($this->search) && !empty($this->search['tl_article']['value']) && 'contentElements' === $this->search['tl_article']['field']) {
+            $filterId = (string) $this->search['tl_article']['value'];
+        }
+
+        $elements = [];
         foreach (self::getChildRecords($row['id'], $this->ptable) as $option) {
-            $childs[] = '&rdca; '
+            $tmp = '<div class="tl_left with-offset" style="--level:2; padding-top:calc(var(--row-padding) * .5)">'
+                .'<span'.(null === $filterId || !\is_int(strpos((string) $option['id'], $filterId)) ? ' class="tl_gray"' : '').'>&rdca;</span>';
+
+            $tmp .= '<a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.$requestToken.'" title="'.\sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">';
+
+            if (null === $filterId || !\is_int(strpos((string) $option['id'], $filterId))) {
+                $tmp .= '<span class="tl_gray">';
+            }
+
+            $tmp .= $this->translator->trans('CTE.'.$option['type'].'.0', [], 'contao_default');
+
+            if (null === $filterId || !\is_int(strpos((string) $option['id'], $filterId))) {
+                $tmp .= '</span>';
+            }
+
+            $tmp .= '</a>';
+
+            $tmp .= '<span class="tl_gray">['
+                .'ID: ';
+
+            if (null === $filterId || !\is_int(strpos((string) $option['id'], $filterId))) {
+                $tmp .= $option['id'];
+            } else {
+                $tmp .= str_replace((string) $filterId, '<span style="color:var(--text)">'.$filterId.'</span>', (string) $option['id']);
+                $filterFound = true;
+            }
+
+            $tmp .= ']</span>'
                 .'<a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.$requestToken.'" title="'.\sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">'
-                .'<span style="color:'.(!empty($filterId) && !str_contains((string) $option['id'], (string) $filterId) ? '#A3A3A3' : '#444').'">'
-                .(!empty($filterId) && $filterId === $option['id'] ? '<span style="font-weight:bold">' : '')
-                .$this->translator->trans('CTE.'.$option['type'].'.0', [], 'contao_default')
-                .' <span style="color:#A3A3A3;padding:0 12px 0 3px">[ID: '.str_replace((string) $filterId, '<span style="font-weight:bold;color:#444">'.$filterId.'</span>', (string) $option['id']).']</span>'
-                .(!empty($filterId) && $filterId === $option['id'] ? '</span>' : '')
                 .Image::getHtml('edit.svg', \sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']), 'style="margin-bottom:2px"')
-                .'</span>'
                 .'</a>';
+            $tmp .= '</div>';
+
+            $elements[] = $tmp;
         }
 
-        $data = '<a href="contao/preview.php?page='.$row['pid'].'&amp;article='.($row['alias'] ?: $row['id']).'" title="'.StringUtil::specialchars($this->translator->trans('MSC.view', [], 'contao_default')).'" target="_blank" data-previewlink>'
-            .Image::getHtml($image.'.svg', '', 'data-icon="'.($unpublished ? $image : rtrim($image, '_')).'.svg" data-icon-disabled="'.rtrim($image, '_').'_.svg"')
-            .'</a>&nbsp;'
-            .$label
-            .'<span style="color:#A3A3A3;margin-left:3px;padding-left:3px" data-id>'
-            .'[ID: '.$row['id']
-            .(!empty($row['inColumn']) ? ' / '.$this->translator->trans('tl_article.inColumn.0', [], 'contao_default').': '.$this->translator->trans('COLS.'.$row['inColumn'], [], 'contao_default') : '')
-            .']'
-            .'</span>';
+        $buffer = ''
+            .'<div>'
+                .'<div class="tl_left with-offset" style="--level:0">'
+                    .'<a href="contao/preview.php?page='.$row['pid'].'&amp;article='.($row['alias'] ?: $row['id']).'" title="'.StringUtil::specialchars($this->translator->trans('MSC.view', [], 'contao_default')).'" target="_blank" data-previewlink>'
+                        .Image::getHtml('articles'.($unpublished ? '_1' : '').'.svg', '', 'data-icon="articles.svg" data-icon-disabled="articles_1.svg"')
+                    .'</a>'
 
-        $hintChilds = '<span style="color:#A3A3A3;margin-left:3px;padding-left:3px">['.$this->translator->trans('MSC.filterRecords', [], 'contao_default').': '.\count($childs).']</span>';
+                    .$label
 
-        if (0 === \count($childs)) {
-            $data .= '<div style="margin-top:2px;margin-left:14px">'
-                .Image::getHtml('fol'.(!empty($filterId) ? 'Minus' : 'Plus').'.svg', '', 'data-icon="folMinus.svg" data-icon-disabled="folPlus.svg" style="margin-right:2px"')
-                .$this->translator->trans('tl_article.contentElements.0', [], 'contao_default')
-                .$hintChilds
+                    .'<span class="label-info">['
+                        .'ID: '.$row['id']
+                            .(!empty($row['inColumn'])
+                                ? ' / '.$this->translator->trans('tl_article.inColumn.0', [], 'contao_default').': '.$this->translator->trans('COLS.'.$row['inColumn'], [], 'contao_default')
+                                : ''
+                            )
+                    .']</span>'
                 .'</div>';
-        } else {
-            $data .= '<div style="cursor:pointer;margin-top:2px;margin-left:14px" onclick="'
-                .'item=$(\'ace_'.$row['id'].'\');'
-                .'image=$(this).getFirst(\'img\');'
-                .'if(item.getStyle(\'display\')==\'none\'){'
-                .'item.setStyle(\'display\',\'inline-block\');'
-                .'image.src=AjaxRequest.themePath+\'icons/folMinus.svg\''
-                .'}else{'
-                .'item.setStyle(\'display\',\'none\');'
-                .'image.src=AjaxRequest.themePath+\'icons/folPlus.svg\''
-                .'}'
-                .'">'
-                .Image::getHtml('fol'.(!empty($filterId) ? 'Minus' : 'Plus').'.svg', '', 'data-icon="folMinus.svg" data-icon-disabled="folPlus.svg" style="margin-right:2px"')
-                .' '.$this->translator->trans('tl_article.contentElements.0', [], 'contao_default')
-                .$hintChilds
+
+        if (!empty(\count($elements))) {
+            $buffer .= ''
+                .'<div class="tl_left with-offset" style="--level:1; padding-top:calc(var(--row-padding) * .5)">'
+                    .'<a href="/contao?do=article" class="foldable" data-contao--toggle-nodes-target="toggle" data-action="contao--toggle-nodes#toggle:prevent" data-contao--toggle-nodes-id-param="tl_article_tl_content_tree_'.$row['id'].'" data-contao--toggle-nodes-level-param="1">'
+                        .Image::getHtml('fol'.($filterFound ? 'Minus' : 'Plus').'.svg', '', 'data-icon="folMinus.svg" data-icon-disabled="folPlus.svg"')
+                        .$this->translator->trans('tl_article.contentElements.0', [], 'contao_default')
+                    .'</a>'
+
+                    .'<span class="label-info">['
+                        .$this->translator->trans('MSC.filterRecords', [], 'contao_default').': '.\count($elements)
+                    .']</span>'
                 .'</div>'
-                .'<div id="ace_'.$row['id'].'" style="display:'.(!empty($filterId) ? 'block' : 'none').';width:100%;text-indent:0;margin:2px 0 0 38px">'
-                .implode('<br>', $childs)
+
+                .'<div id="tl_article_tl_content_tree_'.$row['id'].'" data-contao--toggle-nodes-target="child" style="'.(!$filterFound ? 'display:none' : '').'">'
+                    .implode('', $elements)
                 .'</div>';
         }
 
-        return $data;
+        $buffer .= '</div>';
+
+        return $buffer;
     }
 
     protected static function getChildRecords($pid, $ptable): array
