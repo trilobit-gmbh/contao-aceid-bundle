@@ -15,6 +15,7 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Date;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[\AllowDynamicProperties]
 #[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_news', target: 'list.sorting.child_record')]
 class NewsitemsLabelCallbackListener
 {

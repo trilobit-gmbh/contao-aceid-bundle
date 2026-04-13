@@ -16,8 +16,8 @@ use Contao\DataContainer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[\AllowDynamicProperties]
-#[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_calendar', target: 'list.label.label')]
-class CalendararchiveLabelCallbackListener
+#[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_form', target: 'list.label.label')]
+class FormLabelCallbackListener
 {
     private $translator;
     private $framework;
@@ -31,13 +31,15 @@ class CalendararchiveLabelCallbackListener
     public function __invoke(array $row, string $label, DataContainer $dc, array $labels): string
     {
         return $label
-            .'<span class="label-info">[ID: '.$row['id'].' / '.$this->translator->trans('MSC.filterRecords', [], 'contao_default').': '.self::getChildRecordsCount($row['id']).']</span>';
+            .'<span class="label-info">['
+            .'ID: '.$row['id'].' / '.$this->translator->trans('MSC.filterRecords', [], 'contao_default').': '.self::getChildRecordsCount($row['id'])
+            .']</span>';
     }
 
     protected static function getChildRecordsCount($pid): string
     {
         return (string) Database::getInstance()
-            ->prepare('SELECT count(id) AS count FROM tl_calendar_events WHERE pid=?')
+            ->prepare('SELECT count(id) AS count FROM tl_form_field WHERE pid=?')
             ->execute($pid)
             ->count
         ;

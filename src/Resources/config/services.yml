@@ -46,4 +46,12 @@ services:
         class: Trilobit\AceidBundle\EventListener\PageLabelCallbackListener
         public: true
         arguments:
+            - '@contao.framework'
+            - '@translator'
+
+    trilobit.aceid.form.listener.list.label:
+        class: Trilobit\AceidBundle\EventListener\FormLabelCallbackListener
+        public: true
+        arguments:
+            - '@contao.framework'
             - '@translator'

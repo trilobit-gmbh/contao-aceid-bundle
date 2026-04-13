@@ -15,6 +15,7 @@ use Contao\Database;
 use Contao\DataContainer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[\AllowDynamicProperties]
 #[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_news_archive', target: 'list.label.label')]
 class NewsarchiveLabelCallbackListener
 {

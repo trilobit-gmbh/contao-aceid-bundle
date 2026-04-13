@@ -19,6 +19,7 @@ use Contao\StringUtil;
 use Contao\System;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[\AllowDynamicProperties]
 #[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_article', target: 'list.label.label')]
 class ArticleLabelCallbackListener
 {

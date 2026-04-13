@@ -11,10 +11,12 @@ declare(strict_types=1);
 namespace Trilobit\AceidBundle\EventListener;
 
 use Contao\Backend;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\DataContainer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[\AllowDynamicProperties]
 #[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_page', target: 'list.label.label')]
 class PageLabelCallbackListener
 {
@@ -25,8 +27,9 @@ class PageLabelCallbackListener
      */
     private $layouts;
 
-    public function __construct(?TranslatorInterface $translator)
+    public function __construct(ContaoFramework $framework, TranslatorInterface $translator)
     {
+        $this->framework = $framework;
         $this->translator = $translator;
 
         $this->layouts = [];
