@@ -69,12 +69,12 @@ class ArticleLabelCallbackListener
         $elements = [];
         foreach (self::getChildRecords($row['id'], $this->ptable) as $option) {
             $tmp = '<div class="tl_left with-offset" style="--level:2; padding-top:calc(var(--row-padding) * .5)">'
-                .'<span'.(null === $filterId || !\is_int(strpos((string) $option['id'], $filterId)) ? ' class="tl_gray"' : '').'>&rdca;</span>';
+                .'<span'.(null === $filterId || !\is_int(strpos((string) $option['id'], $filterId)) ? ' class="label-info"' : '').'>&rdca;</span>';
 
             $tmp .= '<a href="contao?do=article&table=tl_content&id='.$option['id'].'&amp;popup=1&amp;nb=1&amp;act=edit&amp;rt='.$requestToken.'" title="'.\sprintf($this->translator->trans('tl_content.edit', [], 'contao_default'), $option['id']).'" class="edit" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", 'ID: '.$option['id'])).'\',\'url\':this.href});return false">';
 
             if (null === $filterId || !\is_int(strpos((string) $option['id'], $filterId))) {
-                $tmp .= '<span class="tl_gray">';
+                $tmp .= '<span class="label-info">';
             }
 
             $tmp .= $this->translator->trans('CTE.'.$option['type'].'.0', [], 'contao_default');
@@ -85,7 +85,7 @@ class ArticleLabelCallbackListener
 
             $tmp .= '</a>';
 
-            $tmp .= '<span class="tl_gray">['
+            $tmp .= '<span class="label-info">['
                 .'ID: ';
 
             if (null === $filterId || !\is_int(strpos((string) $option['id'], $filterId))) {
@@ -125,9 +125,9 @@ class ArticleLabelCallbackListener
         if (!empty(\count($elements))) {
             $buffer .= ''
                 .'<div class="tl_left with-offset" style="--level:1; padding-top:calc(var(--row-padding) * .5)">'
-                    .'<a href="/contao?do=article" class="foldable" data-contao--toggle-nodes-target="toggle" data-action="contao--toggle-nodes#toggle:prevent" data-contao--toggle-nodes-id-param="tl_article_tl_content_tree_'.$row['id'].'" data-contao--toggle-nodes-level-param="1">'
+                    .'<a href="/contao?do=article" data-contao--toggle-nodes-target="toggle" data-action="contao--toggle-nodes#toggle:prevent" data-contao--toggle-nodes-id-param="tl_article_tl_content_tree_'.$row['id'].'" data-contao--toggle-nodes-level-param="1">'
                         .Image::getHtml('fol'.($filterFound ? 'Minus' : 'Plus').'.svg', '', 'data-icon="folMinus.svg" data-icon-disabled="folPlus.svg"')
-                        .$this->translator->trans('tl_article.contentElements.0', [], 'contao_default')
+                        .'<span>'.$this->translator->trans('tl_article.contentElements.0', [], 'contao_default').'</span>'
                     .'</a>'
 
                     .'<span class="label-info">['

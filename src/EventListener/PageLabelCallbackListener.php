@@ -45,7 +45,7 @@ class PageLabelCallbackListener
     public function __invoke(array $row, string $label, DataContainer $dc, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
     {
         return Backend::addPageIcon($row, $label, $dc)
-            .'<span class="tl_gray">['
+            .'<span class="label-info">['
             .'ID: '.$row['id']
             .(0 === $row['pid'] && !empty($row['dns']) ? ' / DNS: <a href="http'.(1 === (int) $row['useSSL'] ? 's' : '').'://'.$row['dns'].'" target="_blank">'.$row['dns'].'</a>' : '')
             .(0 === $row['pid'] && 1 === (int) $row['useSSL'] ? ' / SSL' : '')
