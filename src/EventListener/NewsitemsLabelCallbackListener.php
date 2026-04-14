@@ -30,17 +30,16 @@ class NewsitemsLabelCallbackListener
 
     public function __invoke(array $row): string
     {
+        /*
         $item = new ArticleLabelCallbackListener($this->framework, $this->translator, 'tl_news');
         $childs = $item->__invoke($row, '');
         $childs = preg_replace('/^.*?<a.*?data-previewlink>.*?<\/a>(.*)$/s', '$1', $childs);
         $childs = preg_replace('/^.*?<span.*?data-id>.*?<\/span>(.*)$/s', '$1', $childs);
+        */
 
-        return '' // '<div class="tl_content_left">'
-            .$row['headline']
+        return $row['headline']
             .'<span class="label-info">['
             .'ID: '.$row['id'].' / '.Date::parse(Config::get('datimFormat'), $row['date'])
             .']</span>';
-        // .$childs
-        // .'</div>'
     }
 }

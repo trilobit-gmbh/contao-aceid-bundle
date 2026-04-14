@@ -105,8 +105,7 @@ class ArticleLabelCallbackListener
             $elements[] = $tmp;
         }
 
-        $buffer = ''
-            .'<div>'
+        $buffer = '<div>'
                 .'<div class="tl_left with-offset" style="--level:0">'
                     .'<a href="contao/preview.php?page='.$row['pid'].'&amp;article='.($row['alias'] ?: $row['id']).'" title="'.StringUtil::specialchars($this->translator->trans('MSC.view', [], 'contao_default')).'" target="_blank" data-previewlink>'
                         .Image::getHtml('articles'.($unpublished ? '_1' : '').'.svg', '', 'data-icon="articles.svg" data-icon-disabled="articles_1.svg"')
@@ -124,8 +123,7 @@ class ArticleLabelCallbackListener
                 .'</div>';
 
         if (!empty(\count($elements))) {
-            $buffer .= ''
-                .'<div class="tl_left with-offset" style="--level:1; padding-top:calc(var(--row-padding) * .5)">'
+            $buffer .= '<div class="tl_left with-offset" style="--level:1; padding-top:calc(var(--row-padding) * .5)">'
                     .'<a href="/contao?do=article" data-contao--toggle-nodes-target="toggle" data-action="contao--toggle-nodes#toggle:prevent" data-contao--toggle-nodes-id-param="tl_article_tl_content_tree_'.$row['id'].'" data-contao--toggle-nodes-level-param="1">'
                         .Image::getHtml('fol'.($filterFound ? 'Minus' : 'Plus').'.svg', '', 'data-icon="folMinus.svg" data-icon-disabled="folPlus.svg"')
                         .'<span>'.$this->translator->trans('tl_article.contentElements.0', [], 'contao_default').'</span>'

@@ -38,17 +38,16 @@ class CalendaritemsLabelCallbackListener
             $date = Date::parse(Config::get('dateFormat'), $row['startTime']).($row['addTime'] ? ' '.Date::parse(Config::get('timeFormat'), $row['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Date::parse(Config::get('timeFormat'), $row['endTime']) : '');
         }
 
+        /*
         $item = new ArticleLabelCallbackListener($this->framework, $this->translator, 'tl_calendar_events');
         $childs = $item->__invoke($row, '');
         $childs = preg_replace('/^.*?<a.*?data-previewlink>.*?<\/a>(.*)$/s', '$1', $childs);
         $childs = preg_replace('/^.*?<span.*?data-id>.*?<\/span>(.*)$/s', '$1', $childs);
+        */
 
-        return '' // '<div class="tl_content_left">'
-            .$row['title']
+        return $row['title']
             .'<span class="label-info">['
             .'ID: '.$row['id'].' / '.$date
             .']</span>';
-        // .$childs
-        // .'</div>'
     }
 }
