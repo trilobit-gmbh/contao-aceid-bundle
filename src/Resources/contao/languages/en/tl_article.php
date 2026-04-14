@@ -8,5 +8,5 @@ declare(strict_types=1);
  * @license    LGPL-3.0-or-later
  */
 
-$GLOBALS['TL_LANG']['tl_article']['contentElements'][0] = 'Content elements ID`s';
+$GLOBALS['TL_LANG']['tl_article']['contentElements'][0] = 'Content elements IDs';
 $GLOBALS['TL_LANG']['tl_article']['contentElements'][1] = 'IDs of the content elements linked to this article.';
