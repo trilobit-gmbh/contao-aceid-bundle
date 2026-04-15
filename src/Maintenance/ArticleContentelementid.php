@@ -25,9 +25,6 @@ class ArticleContentelementid extends Maintenance
         return 'refresh_article_contentelements' === Input::post('FORM_SUBMIT');
     }
 
-    /**
-     * @return mixed
-     */
     public function run()
     {
         /** @var BackendTemplate|object $objTemplate */
@@ -52,7 +49,7 @@ class ArticleContentelementid extends Maintenance
                 Article::getAndSetChildRecords($article['id']);
             }
 
-            Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['tl_maintenance']['aceid']['success'], \count($articles)), __CLASS__);
+            Message::addConfirmation(\sprintf($GLOBALS['TL_LANG']['tl_maintenance']['aceid']['success'], \count($articles)), __CLASS__);
             $this->reload();
         }
 

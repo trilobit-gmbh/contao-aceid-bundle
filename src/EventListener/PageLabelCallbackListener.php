@@ -11,14 +11,13 @@ declare(strict_types=1);
 namespace Trilobit\AceidBundle\EventListener;
 
 use Contao\Backend;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\DataContainer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Callback(table="tl_page", target="list.label.label")
- */
+#[\AllowDynamicProperties]
+#[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_page', target: 'list.label.label')]
 class PageLabelCallbackListener
 {
     private $translator;
@@ -28,8 +27,9 @@ class PageLabelCallbackListener
      */
     private $layouts;
 
-    public function __construct(?TranslatorInterface $translator)
+    public function __construct(ContaoFramework $framework, TranslatorInterface $translator)
     {
+        $this->framework = $framework;
         $this->translator = $translator;
 
         $this->layouts = [];
@@ -48,13 +48,12 @@ class PageLabelCallbackListener
     public function __invoke(array $row, string $label, DataContainer $dc, string $imageAttribute = '', bool $returnImage = false, ?bool $isProtected = null): string
     {
         return Backend::addPageIcon($row, $label, $dc)
-            .'&nbsp;<span style="color:#A3A3A3;margin-left:3px;padding-left:3px">'
-            .'['
+            .'<span class="label-info">['
             .'ID: '.$row['id']
             .(0 === $row['pid'] && !empty($row['dns']) ? ' / DNS: <a href="http'.(1 === (int) $row['useSSL'] ? 's' : '').'://'.$row['dns'].'" target="_blank">'.$row['dns'].'</a>' : '')
             .(0 === $row['pid'] && 1 === (int) $row['useSSL'] ? ' / SSL' : '')
             .(0 === $row['pid'] && !empty($row['language']) ? ' / '.$row['language'] : '')
             .(!empty($row['layout']) && !empty($row['includeLayout']) && !empty($this->layouts[$row['layout']]) ? ' / '.$this->translator->trans('MOD.design', [], 'contao_default').': '.$this->layouts[$row['layout']]['output'] : '')
-            .']';
+            .']</span>';
     }
 }

@@ -25,9 +25,6 @@ use Trilobit\AceidBundle\TrilobitAceidBundle;
  */
 class Plugin implements BundlePluginInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getBundles(ParserInterface $parser)
     {
         return [

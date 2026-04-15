@@ -12,13 +12,11 @@ namespace Trilobit\AceidBundle\EventListener;
 
 use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\Date;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Callback(table="tl_news", target="list.sorting.child_record")
- */
+#[\AllowDynamicProperties]
+#[\Contao\CoreBundle\DependencyInjection\Attribute\AsCallback(table: 'tl_news', target: 'list.sorting.child_record')]
 class NewsitemsLabelCallbackListener
 {
     private $translator;
@@ -32,15 +30,16 @@ class NewsitemsLabelCallbackListener
 
     public function __invoke(array $row): string
     {
+        /*
         $item = new ArticleLabelCallbackListener($this->framework, $this->translator, 'tl_news');
         $childs = $item->__invoke($row, '');
         $childs = preg_replace('/^.*?<a.*?data-previewlink>.*?<\/a>(.*)$/s', '$1', $childs);
         $childs = preg_replace('/^.*?<span.*?data-id>.*?<\/span>(.*)$/s', '$1', $childs);
+        */
 
-        return '<div class="tl_content_left">'
-            .$row['headline']
-            .'<span style="color:#A3A3A3;margin-left:3px;padding-left:3px">[ID: '.$row['id'].' / '.Date::parse(Config::get('datimFormat'), $row['date']).']</span>'
-            .$childs
-            .'</div>';
+        return $row['headline']
+            .'<span class="label-info">['
+            .'ID: '.$row['id'].' / '.Date::parse(Config::get('datimFormat'), $row['date'])
+            .']</span>';
     }
 }
